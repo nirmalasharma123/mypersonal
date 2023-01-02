@@ -1,6 +1,5 @@
 const blogModel=require('../modules/bloggModel')
 const authorModel=require('../modules/authorModel');
-const { bulkSave } = require('../modules/bloggModel');
 const createBlog=async (req,res)=>{
     try{
 const authorID=await authorModel.findById(req.body.authorId)
