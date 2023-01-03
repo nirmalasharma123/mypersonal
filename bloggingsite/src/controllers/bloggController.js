@@ -3,8 +3,9 @@ const authorModel=require('../modules/authorModel');
 
 
 const createBlog=async (req,res)=>{
-    try{
-const authorID=await authorModel.findById(req.body.authorId);
+ try{
+  const authorID=await authorModel.findById(req.body.authorId);
+
 if(!authorID) return res.status(404).send({error:"invalid author id"});
 req.body.title=req.body.title.trim();
 req.body.body=req.body.body.trim();
@@ -25,9 +26,12 @@ const getBlogs = async function(req,res){
         let subcategory = req.query.subc
         if(id||category||tags||subcategory){
             
-            let author = await blogModel.find({$or:[{authorId:id},{category:category},{tags:{$in:[tags]}},{subcategory:{$in:[subcategory]}}],isDeleted:false})
+            let author = await blogModel.find({$or:[{authorId:id},{category:category},{tags:{$in:[tags]}},{subcategory:{$in:[subcategory]}}],isDeleted:false});
+
             if(author.length==0) return res.status(404).send({status:false, msg:"author not found"}) 
-            return res.status(200).send({status:true,msg:author})
+
+            return res.status(200).send({status:true,msg:author});
+
         }else{
             let data = await blogModel.find({isDeleted: false, isPublished: true});
             if(data.length==0) return res.status(404).send("No such data");
@@ -53,6 +57,7 @@ const updateBlog = async function(req, res) {
         }
 
         let b = await blogModel.findOne({ _id: data});
+        if(!b) return res.status(404).send({ status:false, msg:"Blog not found"})
         if (b.isDeleted == true) {
             return res.status(404).send({ status: false, msg: "Blog is deleted" })
         }
@@ -107,7 +112,26 @@ const deletById=async function(req,res){
 } catch(error){
     res.status(500).send({satus:false,msg:error.message})
 
-}}
+}};
+const deleteQuery = async function(req, res) {
+    const { category, authorId, isPublished, tags, subCategory } = req.query
+
+    if (!(category || authorId || isPublished || tags || subCategory)) {
+        return res.status(400).send({ status: false, msg: "Kindly enter any value" })
+    }
+
+    let blog = await blogModel.find({ authorId: authorId,isDeleted: false})
+
+    if (blog.length == 0) {
+        return res.status(404).send({ status: false, msg: "Blog document doesn't exists." })
+    }
+ 
+    const update = await blogModel.updateMany({
+        $or: [{ category: category },{ authorId: authorId },{ tags: { $in: [tags] } },
+            { subCategory: { $in: [subCategory] } }]}, { isDeleted: true, deletedAt: Date.now(), new: true })
+
+    return res.status(200).send({ status: true, data:update})
+}
 
 
-module.exports={createBlog,getBlogs,updateBlog,deletById}
+module.exports={createBlog,getBlogs,updateBlog,deletById,deleteQuery}
