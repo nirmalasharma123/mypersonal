@@ -13,12 +13,12 @@ const bloggSchema=new mongoose.Schema({
         type:objectId,
         ref:"firstAuthor"
     },
-    tags:[ String],
+    tags:[ Object],
     category:{
         type:String,
         required:true
     },
-    subcategory:[String],
+    subcategory:[Object],
     deletedAt:{
         type:String,
         default:""
