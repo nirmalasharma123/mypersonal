@@ -85,11 +85,11 @@ const updateBlog = async function(req, res) {
             return res.status(400).send({ status: false, msg: "Please enter details" })
         }
 
-        let b = await blogModel.findOne({ _id: data});
+        let blogData = await blogModel.findOne({ _id: data});
 
-        if(!b) return res.status(404).send({ status:false, msg:"Blog not found"})
+        if(!blogData) return res.status(404).send({ status:false, msg:"Blog not found"})
 
-        if (b.isDeleted == true) return res.status(404).send({ status: false, msg: "Blog is deleted" })
+        if (blogData.isDeleted == true) return res.status(404).send({ status: false, msg: "Blog is deleted" })
 
         if (title) {
             final.title = title
@@ -115,7 +115,7 @@ const updateBlog = async function(req, res) {
             else{
                return res.status(400).send({status:false,error:"Invalid data pass "})
            }
-       let updatedTag=[...b.tags,...result]
+       let updatedTag=[...blogData.tags,...result]
          final.tags=updatedTag;
 }
 
@@ -141,7 +141,7 @@ if(subcategory){
        return res.status(404).send({result:"invalid data passed in subcategory"})
     }
 
-let updatedSubcategory=[...b.subcategory,...result]
+let updatedSubcategory=[...blogData.subcategory,...result]
 final.subcategory=updatedSubcategory;
 }
             
