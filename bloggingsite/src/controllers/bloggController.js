@@ -99,32 +99,51 @@ const updateBlog = async function(req, res) {
         }
         if(tags){
             let result=[]
-           if(typeof tags==="string")
-             {result.push(tags)}
-            else if(Array.isArray(tags)){
+           
+             if(Array.isArray(tags)){
+                for(let i=0;i<tags.length;i++)
+                {
+                    if(typeof tags[i]!=="string")
+                    {
+                        return res.status(404).send({result:"invalid data passed in tags"})
+                    }
+                }
               result=[...tags]}
+              else if(typeof tags==="string")
+
+             {result.push(tags)}
             else{
-                res.status(400).send({status:false,error:"Invalid data pass"})
+               return res.status(400).send({status:false,error:"Invalid data pass "})
            }
        let updatedTag=[...b.tags,...result]
          final.tags=updatedTag;
 }
-        if(subcategory){
-            let result=[]
-            if(Array.isArray(subcategory))
-            {
-                result=[...subcategory]
-            }
-           else if(typeof subcategory==="string")
-            {result.push(subcategory)}   
-            else
-            {
-               return res.status(404).send({result:"invalid data passed in subcategory"})
-            }
 
-        let updatedSubcategory=[...b.subcategory,...result]
-        final.subcategory=updatedSubcategory;
+if(subcategory){
+    let result=[]
+    if(Array.isArray(subcategory))
+    {
+        for(let i=0;i<subcategory.length;i++)
+        {
+            if(typeof subcategory[i]!=="string")
+            {
+                return res.status(404).send({result:"invalid data passed in subcategory"})
+            }
         }
+        console.log(subcategory)
+        result=[...subcategory]
+    }
+   else if(typeof subcategory==="string")
+    {result.push(subcategory)}   
+    else
+    {
+        
+       return res.status(404).send({result:"invalid data passed in subcategory"})
+    }
+
+let updatedSubcategory=[...b.subcategory,...result]
+final.subcategory=updatedSubcategory;
+}
             
         let result = await blogModel.findOneAndUpdate({ _id: data }, final, { new: true })
         return res.status(200).send({ status: true, data: result })
