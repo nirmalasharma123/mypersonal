@@ -162,9 +162,7 @@ const deleteQuery = async function(req, res) {
     if (!(category || authorId || isPublished || tags || subCategory)) {
         return res.status(400).send({ status: false, msg: "Kindly enter any value" })
     }
-
-    if(authorId){
-        
+    if(authorId){   
     if(idcheck(authorId)) return res.status(400).send({ status: false, msg: "Enter valid authorId" })
 
     let blog = await blogModel.find({ authorId: authorId,isDeleted: false})
@@ -174,13 +172,14 @@ const deleteQuery = async function(req, res) {
     let authorLoggedIn = req.token
     if (authorId != authorLoggedIn) return res.status(403).send({ status: false, msg: 'Access is Denied' })
 }
-    
-    const check = await blogModel.find({authorId:req.body,isDeleted:false})
-    if(check.length==0) return res.status(404).send({ status: false, msg: "Blog document doesn't exists." })
+    let check=await blogModel.find({authorId:req.token,...req.query,isDeleted:false})
 
-    const update = await blogModel.updateMany({authorId:req.body,...req.query}, { isDeleted: true, deletedAt: Date.now(), new: true })
-    return res.status(200).send({ status: true, data:"blogg is deleted"})
+    if(check.length==0) return res.status(404).send({error:"no such blog"})
+    let a=req.query.category
+
+    const update = await blogModel.updateMany({authorId:req.token,...req.query,isDeleted:false}, 
+    { isDeleted: true, deletedAt: Date.now(), new: true })
+    return res.status(200).send({ status: true, data:`${check.length} data deleted`})
 }
-
 
 module.exports={createBlog,getBlogs,updateBlog,deletById,deleteQuery}
