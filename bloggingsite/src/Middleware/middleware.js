@@ -31,7 +31,7 @@ const authorisation = async function(req, res, next) {
 
     try {
       
-        let token = req.headers["x-api-key"]
+        //let token = req.headers["x-api-key"]
         const blogId = req.params.blogId
        
         const blog = await blogModel.findById(blogId).select({ authorId: 1, _id: 0 })
