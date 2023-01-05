@@ -1,6 +1,12 @@
 const jwt = require("jsonwebtoken");
 const blogModel = require("../modules/bloggModel")
 
+const idcheck = function(value) {
+    let a = validator.isMongoId(value)
+    if (!a) {
+        return true
+    } else return false
+}
 
 const auth = function(req, res, next) {
 
@@ -33,7 +39,7 @@ const authorisation = async function(req, res, next) {
       
         //let token = req.headers["x-api-key"]
         const blogId = req.params.blogId
-       
+        if(idcheck(req.params.blogId)) return res.status(404).send({status:false,msg:"ID Incorrect"});
         const blog = await blogModel.findById(blogId).select({ authorId: 1, _id: 0 })
          if (blog == null) {
             
