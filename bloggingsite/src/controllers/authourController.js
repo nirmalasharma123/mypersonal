@@ -9,8 +9,8 @@ const createAuthor=async function(req,res){
     if(!(validator.isAlpha(data.fname)||validator.isAlpha(data.lname)))  return res.status(400).send("invalid name")
      
     
-    let fname=data.fname.trim().split(" ").join("")//abhinav
-     let lname=data.lname.trim().split(" ").join(""); //gupta
+    let fname=data.fname.trim().split(" ").join("")
+     let lname=data.lname.trim().split(" ").join(""); 
     data.fname=fname
     data.lname=lname;
 
