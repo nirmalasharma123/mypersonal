@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const blogModel = require("../modules/bloggModel")
+const validator = require("validator")
 
 const idcheck = function(value) {
     let a = validator.isMongoId(value)
