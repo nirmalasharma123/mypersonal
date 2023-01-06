@@ -24,7 +24,7 @@ const createAuthor=async function(req,res){
      if (!validator.isStrongPassword(data.password)) {
       return res.status(400).send({ status: false, msg: "Kindly use atleast one uppercase alphabets, numbers and special characters for strong password." })
 }
-let checkEmail=await authorModel.findOne({email:data.email})
+let checkEmail=await author.findOne({email:data.email})
 if(checkEmail) return res.status(400).send({status:false,result:"email already exists"})
      
      let setData=await author.create(data);
