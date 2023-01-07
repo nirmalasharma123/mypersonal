@@ -17,7 +17,7 @@ const createAuthor=async function(req,res){
     if(!validator.isAlpha(data.fname)||!validator.isAlpha(data.lname))  return res.status(400).send({status:false,msg:"invalid name"})
      
     if (title != "Mr" && title != "Mrs" && title != "Miss") {
-            return res.status(400).send({ status: false, Error: "Invalid Title - The title should be in [Mr / Mrs / Miss]" })
+            return res.status(400).send({ status: false, msg: "Invalid Title - The title should be in [Mr / Mrs / Miss]" })
         }
 
      if(!(validator.isEmail(req.body.email))) return res.status(400).send({status:false,result:"please put a valid email"})
