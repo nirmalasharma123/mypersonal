@@ -78,6 +78,7 @@ const updateBlog = async function(req, res) {
 
         let final = { isPublished: true, publishedAt: Date.now()}
         const data = req.params.blogId
+        if(idcheck(data)) return res.status(400).send({ status: false, msg: "Enter valid authorId" }) // ----added
         
         const { title, body, tags, subcategory } = req.body
         
@@ -157,6 +158,7 @@ final.subcategory=updatedSubcategory;
 const deletById=async function(req,res){
     try{    
     let blogid=req.params.blogId;
+     if(idcheck(blogid)) return res.status(400).send({ status: false, msg: "Enter valid authorId" })//-----added    
 
     let id= await blogModel.findById(blogid);
     if(!id) return res.status(404).send("Blogg not found")
