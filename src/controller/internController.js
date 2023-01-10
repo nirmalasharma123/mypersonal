@@ -18,7 +18,7 @@ const createIntern = async function (req, res) {
 
         if (email) {
             if (!validator.isEmail(email)) return res.status(400).send({ status: false, message: "Enter a valid email-id" })
-            newData.email = email.trim();
+            newData.email = email.trim().toLowerCase();
 
         };
         if (mobile) {

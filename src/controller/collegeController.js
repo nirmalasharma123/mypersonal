@@ -14,11 +14,13 @@ const createCollege = async function (req, res) {
                 return res.status(400).send({ status: false, message: "Please fill all the mandatory fields..eg: name,fullName,logoLink" });
             };
             req.body.name = req.body.name.trim();
-            req.body.fullName = req.body.fullName.trim();
+            req.body.fullName = req.body.fullName.trim().toLowerCase();
             req.body.logoLink = req.body.logoLink.trim();
             if (!validator.isAlphanumeric(req.body.name, "en-US", { ignore: '-' })) return res.status(400).send({ status: false, message: "Please give valid  name" });
 
             if (!validator.isAlpha(req.body.fullName.split(' ').join(''))) return res.status(400).send({ status: false, message: "Please give valid college name" });
+
+           
             
 
             let link = req.body.logoLink.substring(0, 8);//https://
@@ -30,7 +32,7 @@ const createCollege = async function (req, res) {
             let png1 = ".png";
             let png2 = ".jpg";
             let jpeg1 = ".jpeg";
-            console.log(jpeg);
+            
             if ((link == url || link1 == url1) && (png == png1 || png == png2 || jpeg == jpeg1)) {
 
                 const dublicate = await collegeModel.find({ $or: [{ name: req.body.name }, { fullName: req.body.fullName }] })
