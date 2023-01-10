@@ -1,5 +1,5 @@
 const collegeModel = require('../Model/collegeModel');
-const validator = require('validator')
+const validator = require('validator');
 const createCollege = async function (req, res) {
     try {
 
@@ -48,4 +48,4 @@ const createCollege = async function (req, res) {
         return res.status(500).send({ status: false, msg: err.message });
     }
 }
-module.exports = { createCollege }
+module.exports = { createCollege };

@@ -42,7 +42,7 @@ const createIntern = async function (req, res) {
         return res.status(200).send(intern);
     } catch (err) {
         
-        return res.status(500).send({ status: false, msg: err.message })
+        return res.status(500).send({ status: false, msg: err.message });
     }
 
 }
@@ -67,5 +67,5 @@ const getCollegeDetails = async function (req, res) {
 }
 
 
-module.exports = { createIntern, getCollegeDetails }
+module.exports = { createIntern, getCollegeDetails };
 
