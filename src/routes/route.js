@@ -8,7 +8,7 @@ router.post('/functionup/colleges',collegeController.createCollege);
 router.post('/functionup/interns',internController.createIntern);
 router.get('/functionup/collegeDetails',internController.getCollegeDetails)
 router.all('/*',function (res ,res){
-    res.status(400).send({status :false ,msg:"Please send correct url"});
+    res.status(400).send({status :false ,msg:"Please send correct url"})
 })
 
 module.exports=router;
