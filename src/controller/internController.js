@@ -67,6 +67,5 @@ const getCollegeDetails = async function (req, res) {
 }
 
 
-
 module.exports = { createIntern, getCollegeDetails }
 
