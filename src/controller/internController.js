@@ -23,6 +23,18 @@ const createIntern = async function (req, res) {
         };
         if (mobile) {
             mobile = mobile.toString();
+            console.log(mobile.charAt(0));
+            let flag=false;
+           if(mobile.charAt(0) == '6' || !mobile.charAt(0) == '7'|| mobile.charAt(0) == '8' || mobile.charAt(0) == '9'  ){
+           // return res.status(400).send({ status: false, message: "invalid mobile number."});
+           flag=true;
+
+           }
+           if(!flag ){
+             return res.status(400).send({ status: false, message: "invalid mobile number."});
+           }
+
+           
             if (mobile.length != 10) return res.status(400).send({ status: false, message: "Please Check Your Number.Number should be in 10 digits.." })
             if (!validator.isNumeric(mobile)) return res.status(400).send({ status: false, message: "Please Check Your Number" })
             Number(mobile);
@@ -30,7 +42,7 @@ const createIntern = async function (req, res) {
 
         };
         const checkEmailAndNum = await internModel.find({ $or: [{ email: email }, { mobile: mobile }] });
-        if (checkEmailAndNum != 0) return res.status(400).send({ status: false, message: "Email or mobile number is already exist" })
+        if (checkEmailAndNum.length != 0) return res.status(400).send({ status: false, message: "Email or mobile number is already exist" })
 
        // const collegeName = req.body.collegeName;
         if (!validator.isAlphanumeric(collegeName, "en-US", { ignore: '-' })) return res.status(400).send({ status: false, message: "Invalid college name " })
@@ -55,8 +67,8 @@ const getCollegeDetails = async function (req, res) {
     if (typeof collegeName == 'undefined') return res.status(400).send({ status: false, message: "Input something " })
     if (collegeName.trim() == "") return res.status(400).send({ status: false, message: "College name can not be empty" })
     if (!validator.isAlphanumeric(collegeName, "en-US", { ignore: '-' })) return res.status(400).send({ status: false, message: "Invalid college name " })
-    const checkCollege = await collegeModel.findOne({ name: collegeName });
-    if (!checkCollege) return res.status(200).send({ status: false, message: "No college exists with this college name " });
+    const checkCollege = await collegeModel.findOne({ name: collegeName ,isDeleted:false });
+    if (!checkCollege) return res.status(400).send({ status: false, message: "No college exists with this college name or deleted !! " });
     const { name, fullName, logoLink } = checkCollege;
     const newData = { name: name, fullName: fullName, logoLink: logoLink };
     const collegeId = checkCollege._id;

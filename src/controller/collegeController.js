@@ -17,11 +17,10 @@ const createCollege = async function (req, res) {
             req.body.fullName = req.body.fullName.trim().toLowerCase();
             req.body.logoLink = req.body.logoLink.trim();
             if (!validator.isAlphanumeric(req.body.name, "en-US", { ignore: '-' })) return res.status(400).send({ status: false, message: "Please give valid  name" });
+            
+            if(validator.isNumeric(req.body.name)) return res.status(400).send({ status: false, message: "Please give valid  name eg: 'xyz-35' " });
 
             if (!validator.isAlpha(req.body.fullName.split(' ').join(''))) return res.status(400).send({ status: false, message: "Please give valid college name" });
-
-           
-            
 
             let link = req.body.logoLink.substring(0, 8);//https://
             let link1 = req.body.logoLink.substring(0, 7);//"http://
