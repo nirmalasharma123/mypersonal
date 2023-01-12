@@ -60,30 +60,8 @@ const createIntern = async function (req, res) {
 
 }
 
-const getCollegeDetails = async function (req, res) {
-
-   try{ 
-    const collegeName = req.query.collegeName;
-    if (typeof collegeName == 'undefined') return res.status(400).send({ status: false, message: "Input something " })
-    if (collegeName.trim() == "") return res.status(400).send({ status: false, message: "College name can not be empty" })
-    if (!validator.isAlphanumeric(collegeName, "en-US", { ignore: '-' })) return res.status(400).send({ status: false, message: "Invalid college name " })
-    const checkCollege = await collegeModel.findOne({ name: collegeName ,isDeleted:false });
-    if (!checkCollege) return res.status(400).send({ status: false, message: "No college exists with this college name or deleted !! " });
-    const { name, fullName, logoLink } = checkCollege;
-    const newData = { name: name, fullName: fullName, logoLink: logoLink };
-    const collegeId = checkCollege._id;
-    const intern = await internModel.find({ collegeId: collegeId ,isDeleted:false }).select({name:1,email:1,mobile:1,isDeleted:1,_id:1});
-    newData.interns = intern;
-    // if(intern.length ==0)  newData.interns="No intern from this college";
-
-    return res.status(200).send({ data: newData });
-}catch(err){
-    res.status(500).send({status:false , message: err.message});
-}
 
 
-}
 
-
-module.exports = { createIntern, getCollegeDetails }
+module.exports = { createIntern }
 
