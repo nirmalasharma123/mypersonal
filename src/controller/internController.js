@@ -25,7 +25,7 @@ const createIntern = async function (req, res) {
             mobile = mobile.toString();
             console.log(mobile.charAt(0));
             let flag=false;
-           if(mobile.charAt(0) == '6' || !mobile.charAt(0) == '7'|| mobile.charAt(0) == '8' || mobile.charAt(0) == '9'  ){
+           if(mobile.charAt(0) == '6' || mobile.charAt(0) == '7'|| mobile.charAt(0) == '8' || mobile.charAt(0) == '9'  ){
            // return res.status(400).send({ status: false, message: "invalid mobile number."});
            flag=true;
 
