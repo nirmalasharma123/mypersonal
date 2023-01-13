@@ -13,7 +13,7 @@ mongoose.connect('mongodb+srv://Pal25:Pallavi2552@cluster0.hihf8kq.mongodb.net/g
 .catch(err => console.log(err))
 app.use('/',route);
 
-app.listen(3000,function() {
-    console.log("express is running on port 3000")
+app.listen(3001,function() {
+    console.log("express is running on port 3001")
 }
 )
